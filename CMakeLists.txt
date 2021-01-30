@@ -30,6 +30,13 @@ CPMAddPackage(
   GITHUB_REPOSITORY gabime/spdlog
   VERSION 1.8.2
 )
+
+CPMAddPackage(
+  NAME benchmark
+  GITHUB_REPOSITORY google/benchmark
+  VERSION 1.5.2
+  OPTIONS "BENCHMARK_ENABLE_TESTING Off"
+)
 #if(spdlog_ADDED)	 
 #    add_library(spdlog INTERFACE)	 
 #    target_include_directories(spdlog INTERFACE ${spdlog_SOURCE_DIR})	 
@@ -66,7 +73,7 @@ target_include_directories(binary
                            PRIVATE spdlog)
 
 #
-# unit_test
+# unit test
 #
 add_executable(unit_test
 	           test/unit.cpp)
@@ -81,4 +88,22 @@ target_link_libraries(unit_test
 
 target_include_directories(unit_test
 						   PRIVATE spdlog
-						   PRIVATE Catch2)                           
+               PRIVATE Catch2)
+
+#
+# benchmark test
+#
+add_executable(benchmark_test
+	           test/benchmark.cpp)
+
+set_target_properties(benchmark_test PROPERTIES COMPILE_FLAGS "${WARNING_FLAGS}")
+
+target_link_libraries(benchmark_test
+					  PRIVATE asan
+					  PRIVATE lsan
+					  PRIVATE spdlog
+					  PRIVATE benchmark)
+
+target_include_directories(benchmark_test
+						   PRIVATE spdlog
+						   PRIVATE benchmark)                     
