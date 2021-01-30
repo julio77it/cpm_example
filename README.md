@@ -12,6 +12,4 @@ https://medium.com/swlh/cpm-an-awesome-dependency-manager-for-c-with-cmake-3c53f
 
 ## How to 
 
-make debug
-cd build
-make
+make debug ; cd build ; make
